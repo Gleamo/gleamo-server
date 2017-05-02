@@ -1,6 +1,29 @@
 var amqp = require('amqplib/callback_api');
 var config = require('../config.json');
 
+var authority = '';
+
+if (config.mq.username) {
+  authority = config.mq.username;
+
+  if (config.mq.password) {
+    authority += ':' + config.mq.password;
+  }
+
+  authority += '@';
+}
+
+
+var url = 'amqp' + authority + host;
+
+if (config.mq.port) {
+  url += ':' + config.mq.port;
+}
+
+if (config.mq.vhost) {
+  url += '/' + config.mq.vhost;
+}
+
 amqp.connect(config.mq.url, function(err, conn) {
   conn.createChannel(function(err, ch) {
     var q = config.mq.queue_name;

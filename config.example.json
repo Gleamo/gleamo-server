@@ -1,6 +1,10 @@
 {
   "mq": {
-    "url": "amqp://localhost",
-    "queue_name": "commands"
+    "url": "localhost",
+    "port": false,
+    "vhost": false,
+    "queue_name": "commands",
+    "username": "username",
+    "password": "passowrd"
   }
 }
