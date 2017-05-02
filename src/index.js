@@ -14,7 +14,7 @@ if (config.mq.username) {
 }
 
 
-var url = 'amqp' + authority + host;
+var url = 'amqp://' + authority + config.mq.host;
 
 if (config.mq.port) {
   url += ':' + config.mq.port;
@@ -24,19 +24,19 @@ if (config.mq.vhost) {
   url += '/' + config.mq.vhost;
 }
 
-amqp.connect(config.mq.url, function(err, conn) {
+amqp.connect(url, function(err, conn) {
   conn.createChannel(function(err, ch) {
     var q = config.mq.queue_name;
     var msg = {
       commands: [
         {
-          duration: 5000,
+          duration: 1000,
           start_offset: 0,
           end_offset: 0,
           color: {
-            r: 100,
-            g: 120,
-            b: 250,
+            r: Math.random() * 255,
+            g: Math.random() * 255,
+            b: Math.random() * 255,
           },
           buzzer_pattern: 'none',
         },
@@ -45,7 +45,7 @@ amqp.connect(config.mq.url, function(err, conn) {
 
     ch.assertQueue(q, {durable: false});
     ch.sendToQueue(q, Buffer.from(JSON.stringify(msg)));
-    console.log(" [x] Sent %s to %s on %s", JSON.stringify(msg), config.mq.queue_name, config.mq.url);
+    console.log(" [x] Sent %s to %s on %s", JSON.stringify(msg), config.mq.queue_name, config.mq.host);
   });
   setTimeout(function() { conn.close(); process.exit(0) }, 500);
 });

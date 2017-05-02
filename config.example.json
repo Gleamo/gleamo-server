@@ -1,6 +1,6 @@
 {
   "mq": {
-    "url": "localhost",
+    "host": "localhost",
     "port": false,
     "vhost": false,
     "queue_name": "commands",
