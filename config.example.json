@@ -1,0 +1,6 @@
+{
+  "mq": {
+    "url": "amqp://localhost",
+    "queue_name": "commands"
+  }
+}
